@@ -1,34 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz Solver</title>
+    <title>수학 퀴즈</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        .container {
-            max-width: 600px;
-            margin: auto;
+            text-align: center;
             padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            background-color: #f9f9f9;
-        }
-        .question {
-            margin-bottom: 15px;
-        }
-        .answer {
-            margin-top: 15px;
+            background-color: #f0f8ff;
         }
         .button {
-            margin-top: 15px;
             display: inline-block;
-            padding: 10px 20px;
+            margin: 10px;
+            padding: 15px 25px;
             font-size: 16px;
-            color: #fff;
+            color: white;
             background-color: #007BFF;
             border: none;
             border-radius: 5px;
@@ -37,47 +25,74 @@
         .button:hover {
             background-color: #0056b3;
         }
-        .result {
-            margin-top: 20px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #e7f3fe;
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Quiz Solver</h1>
-        <form id="quizForm">
-            <div class="question">
-                <label for="question">Enter your question:</label>
-                <textarea id="question" name="question" rows="4" cols="50" placeholder="Type your question here..."></textarea>
-            </div>
-            <button type="button" class="button" onclick="solveQuestion()">Solve</button>
-        </form>
-        <div class="result" id="result" style="display: none;">
-            <h2>Answer:</h2>
-            <p id="answer">Processing...</p>
-        </div>
+    <h1>수학 퀴즈</h1>
+    <p>자신의 학년 수준을 선택하세요:</p>
+    <div id="levelSelection">
+        <button class="button" onclick="startQuiz('elementary')">초등학생</button>
+        <button class="button" onclick="startQuiz('middle')">중학생</button>
+        <button class="button" onclick="startQuiz('high')">고등학생</button>
+        <button class="button" onclick="startQuiz('university')">대학생</button>
+    </div>
+
+    <div id="quizSection" class="hidden">
+        <h2 id="quizTitle"></h2>
+        <p id="question"></p>
+        <input type="text" id="answer" placeholder="답을 입력하세요">
+        <button class="button" onclick="checkAnswer()">제출</button>
+        <p id="result"></p>
     </div>
 
     <script>
-        function solveQuestion() {
-            const question = document.getElementById('question').value;
-            const resultDiv = document.getElementById('result');
-            const answerElement = document.getElementById('answer');
-
-            if (!question.trim()) {
-                alert('Please enter a question!');
-                return;
+        const questions = {
+            elementary: {
+                question: "5 + 3는 얼마인가요?",
+                answer: "8"
+            },
+            middle: {
+                question: "x가 3일 때 2x + 4의 값은 얼마인가요?",
+                answer: "10"
+            },
+            high: {
+                question: "미분: f(x) = x^2의 도함수는 무엇인가요?",
+                answer: "2x"
+            },
+            university: {
+                question: "적분: ∫(2x) dx의 결과는 무엇인가요?",
+                answer: "x^2 + C"
             }
+        };
 
-            // Simulating answer generation
-            resultDiv.style.display = 'block';
-            answerElement.textContent = 'This is a placeholder answer for: "' + question + '"';
+        function startQuiz(level) {
+            document.getElementById('levelSelection').classList.add('hidden');
+            document.getElementById('quizSection').classList.remove('hidden');
 
-            // Here, you can add an API call or logic to process the question and provide the real answer.
+            const quiz = questions[level];
+            document.getElementById('quizTitle').textContent = level === 'elementary' ? "초등학생 문제" : 
+                level === 'middle' ? "중학생 문제" : 
+                level === 'high' ? "고등학생 문제" : "대학생 문제";
+
+            document.getElementById('question').textContent = quiz.question;
+            document.getElementById('quizSection').dataset.correctAnswer = quiz.answer;
+        }
+
+        function checkAnswer() {
+            const userAnswer = document.getElementById('answer').value.trim();
+            const correctAnswer = document.getElementById('quizSection').dataset.correctAnswer;
+
+            const resultElement = document.getElementById('result');
+            if (userAnswer === correctAnswer) {
+                resultElement.textContent = "정답입니다! 잘했어요!";
+                resultElement.style.color = "green";
+            } else {
+                resultElement.textContent = "오답입니다. 다시 시도하세요.";
+                resultElement.style.color = "red";
+            }
         }
     </script>
 </body>
