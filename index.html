@@ -1,11 +1,84 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<title>포도빛</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Solver</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        .question {
+            margin-bottom: 15px;
+        }
+        .answer {
+            margin-top: 15px;
+        }
+        .button {
+            margin-top: 15px;
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #e7f3fe;
+        }
+    </style>
 </head>
 <body>
-<h1>포도빛의 Gitgub page 연습 </h1>
-<p>잘 나온다!</p>
+    <div class="container">
+        <h1>Quiz Solver</h1>
+        <form id="quizForm">
+            <div class="question">
+                <label for="question">Enter your question:</label>
+                <textarea id="question" name="question" rows="4" cols="50" placeholder="Type your question here..."></textarea>
+            </div>
+            <button type="button" class="button" onclick="solveQuestion()">Solve</button>
+        </form>
+        <div class="result" id="result" style="display: none;">
+            <h2>Answer:</h2>
+            <p id="answer">Processing...</p>
+        </div>
+    </div>
+
+    <script>
+        function solveQuestion() {
+            const question = document.getElementById('question').value;
+            const resultDiv = document.getElementById('result');
+            const answerElement = document.getElementById('answer');
+
+            if (!question.trim()) {
+                alert('Please enter a question!');
+                return;
+            }
+
+            // Simulating answer generation
+            resultDiv.style.display = 'block';
+            answerElement.textContent = 'This is a placeholder answer for: "' + question + '"';
+
+            // Here, you can add an API call or logic to process the question and provide the real answer.
+        }
+    </script>
 </body>
 </html>
